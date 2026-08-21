@@ -1,0 +1,74 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="AzVZ1060BuQKvHWnYbC1">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-15" edge="1" parent="1" source="_5Atn_6QN_MtT9oXacI9-1" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;" target="_5Atn_6QN_MtT9oXacI9-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-19" connectable="0" parent="_5Atn_6QN_MtT9oXacI9-15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" value="assigned to" vertex="1">
+          <mxGeometry relative="1" x="-0.0489" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Class" vertex="1">
+          <mxGeometry height="190" width="160" x="320" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-2" parent="_5Atn_6QN_MtT9oXacI9-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- classId: String&lt;/div&gt;&lt;div&gt;- className: String&lt;/div&gt;&lt;div&gt;- faculty: String&lt;/div&gt;&lt;div&gt;- totalStudents: int&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-3" parent="_5Atn_6QN_MtT9oXacI9-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-4" parent="_5Atn_6QN_MtT9oXacI9-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ addStudent(studentId: String): void&lt;/div&gt;&lt;div&gt;+ removeStudent(studentId: String): void&lt;/div&gt;&lt;div&gt;+ getClassInfo(): Class&lt;/div&gt;" vertex="1">
+          <mxGeometry height="82" width="160" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-7" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="CourseClass" vertex="1">
+          <mxGeometry height="220" width="160" x="130" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-8" parent="_5Atn_6QN_MtT9oXacI9-7" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- courseClassId: String&lt;/div&gt;&lt;div&gt;- subjectName: String&lt;/div&gt;&lt;div&gt;- semester: String&lt;/div&gt;&lt;div&gt;- classId: String&lt;/div&gt;&lt;div&gt;- lecturerId: String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="82" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-9" parent="_5Atn_6QN_MtT9oXacI9-7" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-10" parent="_5Atn_6QN_MtT9oXacI9-7" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ assignLecturer(lecturerId: String): void&lt;/div&gt;&lt;div&gt;+ assignClass(classId: String): void&lt;/div&gt;&lt;div&gt;+ getStudentList(): List&amp;lt;Student&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="104" width="160" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-11" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Grade" vertex="1">
+          <mxGeometry height="240" width="160" x="480" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-12" parent="_5Atn_6QN_MtT9oXacI9-11" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- gradeId: String&lt;/div&gt;&lt;div&gt;- studentId: String&lt;/div&gt;&lt;div&gt;- courseClassId: String&lt;/div&gt;&lt;div&gt;- attendanceGrade: float&lt;/div&gt;&lt;div&gt;- midtermGrade: float&lt;/div&gt;&lt;div&gt;- finalGrade: float&lt;/div&gt;&lt;div&gt;- totalGrade: float&lt;/div&gt;" vertex="1">
+          <mxGeometry height="114" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-13" parent="_5Atn_6QN_MtT9oXacI9-11" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-14" parent="_5Atn_6QN_MtT9oXacI9-11" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ calculateTotalGrade(): float&lt;/div&gt;&lt;div&gt;+ updateGrade(attendance: float, midterm: float, finalExam: float): void&lt;/div&gt;&lt;div&gt;+ getGradeDetails(): Grade&lt;/div&gt;" vertex="1">
+          <mxGeometry height="92" width="160" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="270" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="0..*" vertex="1">
+          <mxGeometry height="30" width="60" x="150" y="200" as="geometry" />
+        </mxCell>
+        <UserObject label="contains &gt;" plantUmlId="rel_64" plantUmlBaseStyle="startArrow=diamond;startFill=1;startSize=12;endArrow=none;html=1;strokeColor=#181818;fontColor=#000000;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" plantUmlBaseValue="contains &gt;" id="_5Atn_6QN_MtT9oXacI9-20">
+          <mxCell edge="1" parent="1" style="startArrow=diamond;startFill=1;startSize=12;endArrow=none;html=1;strokeColor=#181818;fontColor=#000000;fontSize=11;entryX=0.004;entryY=0.072;entryDx=0;entryDy=0;rounded=0;entryPerimeter=0;" target="_5Atn_6QN_MtT9oXacI9-11">
+            <mxGeometry relative="1" as="geometry">
+              <mxPoint x="290" y="247.28" as="sourcePoint" />
+              <mxPoint x="400" y="370" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1..*" vertex="1">
+          <mxGeometry height="30" width="60" x="430" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="_5Atn_6QN_MtT9oXacI9-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="270" y="220" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
