@@ -342,57 +342,7 @@ class AppGUI(tk.Tk):
                 ent.delete(0, tk.END)
                 ent.insert(0, val)
 
-    
-
-    # ============================== STUDENT MODULES ==============================
-    def show_student_transcript(self):
-        self.clear()
-        self.build_sidebar('Student')
-        main = tk.Frame(self, padx=20, pady=20)
-        main.pack(side="right", fill="both", expand=True)
-        tk.Label(main, text="Academic Transcript (Read-Only)", font=("Arial", 16, "bold")).pack(anchor="w", pady=10)
-
-        tree = ttk.Treeview(main, columns=("sub", "sem", "att", "mid", "fin", "tot"), show="headings")
-        for c, t in zip(tree["columns"], ["Subject", "Semester", "Attendance", "Midterm", "Final", "Total Grade"]):
-            tree.heading(c, text=t)
-        tree.pack(fill="both", expand=True, pady=10)
-        for t in self.srv.get_student_transcript(self.user.user_id):
-            tree.insert("", tk.END, values=(t['sub'], t['sem'], t['att'], t['mid'], t['fin'], t['tot']))
-
-    def show_student_profile(self):
-        self.clear()
-        self.build_sidebar('Student')
-        prof = self.srv.get_student_profile(self.user.user_id)
-        main = tk.Frame(self, padx=20, pady=20)
-        main.pack(side="right", fill="both", expand=True)
-        tk.Label(main, text="Personal Profile Management", font=("Arial", 16, "bold")).pack(anchor="w", pady=10)
-
-        df = tk.LabelFrame(main, text="Your Information", padx=20, pady=20)
-        df.pack(fill="x")
-        tk.Label(df, text="Full Name:").grid(row=0, column=0, sticky="w")
-        self.sp_name = tk.Entry(df, width=35)
-        self.sp_name.insert(0, prof.full_name)
-        self.sp_name.grid(row=0, column=1, pady=10)
-        tk.Label(df, text="Phone Number:").grid(row=1, column=0, sticky="w")
-        self.sp_phone = tk.Entry(df, width=35)
-        self.sp_phone.insert(0, prof.phone)
-        self.sp_phone.grid(row=1, column=1, pady=10)
-        tk.Label(df, text="Email:").grid(row=2, column=0, sticky="w")
-        self.sp_email = tk.Entry(df, width=35)
-        self.sp_email.insert(0, prof.email)
-        self.sp_email.grid(row=2, column=1, pady=10)
-        tk.Label(df, text="Contact Address:").grid(row=3, column=0, sticky="w")
-        self.sp_address = tk.Entry(df, width=35)
-        self.sp_address.insert(0, prof.address if prof.address else "")
-        self.sp_address.grid(row=3, column=1, pady=10)
-        tk.Button(df, text="Update", bg="#16a34a", fg="white", command=self.upd_student_profile).grid(row=4, column=1, sticky="e", pady=20)
-
-    def upd_student_profile(self):
-        res = self.srv.update_student_profile(self.user.user_id, self.sp_name.get(), self.sp_phone.get(), self.sp_email.get(), self.sp_address.get())
-        if res == "OK":
-            messagebox.showinfo("Success", "Profile updated successfully!")
-        else:
-            messagebox.showerror("Error", res)
+   
 
 if __name__ == "__main__":
     app = AppGUI()
