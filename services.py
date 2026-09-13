@@ -78,4 +78,98 @@ class SystemService:
             except Exception as e: return "Không thể xóa do ràng buộc dữ liệu!"
             finally: conn.close()
 
+    # --- ADMIN: CLASS SERVICES ---
+    def get_all_classes(self, keyword=""):
+        conn = self.db.connect()
+        data = []
+        if conn:
+            cur = conn.cursor()
+            query = "SELECT class_id, class_name, faculty, total_students FROM CLASS"
+            if keyword: query += f" WHERE class_name LIKE '%{keyword}%' OR class_id LIKE '%{keyword}%'"
+            cur.execute(query)
+            for r in cur.fetchall(): data.append(ClassEntity(r[0], r[1], r[2], r[3]))
+            conn.close()
+        return data
+
+    def add_class(self, cid, name, faculty):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO CLASS VALUES (?, ?, ?, 0)", (cid, name, faculty))
+                conn.commit()
+                return "OK"
+            except Exception as e: return str(e)
+            finally: conn.close()
+
+    def update_class(self, cid, name, faculty):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("UPDATE CLASS SET class_name=?, faculty=? WHERE class_id=?", (name, faculty, cid))
+                conn.commit()
+                return "OK"
+            except Exception as e: return str(e)
+            finally: conn.close()
+
+    def delete_class(self, cid):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("DELETE FROM CLASS WHERE class_id=?", (cid,))
+                conn.commit()
+                return "OK"
+            except pyodbc.IntegrityError: return "Không thể xóa lớp này vì đang có sinh viên hoặc dữ liệu liên kết!"
+            finally: conn.close()
+
+    # --- ADMIN: COURSE CLASS SERVICES ---
+    def get_all_course_classes(self, keyword=""):
+        conn = self.db.connect()
+        data = []
+        if conn:
+            cur = conn.cursor()
+            query = "SELECT course_class_id, class_id, lecturer_id, subject_name, semester FROM COURSE_CLASS"
+            if keyword: query += f" WHERE subject_name LIKE '%{keyword}%' OR course_class_id LIKE '%{keyword}%'"
+            cur.execute(query)
+            for r in cur.fetchall(): data.append(CourseClass(r[0], r[1], r[2], r[3], r[4]))
+            conn.close()
+        return data
+
+    def add_course_class(self, ccid, cid, lid, subj, sem):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("INSERT INTO COURSE_CLASS VALUES (?, ?, ?, ?, ?)", (ccid, cid, lid, subj, sem))
+                conn.commit()
+                return "OK"
+            except pyodbc.IntegrityError: return "Mã lớp bạn nhập không tồn tại ! Vui lòng kiểm tra lại"
+            except Exception as e: return str(e)
+            finally: conn.close()
+
+    def update_course_class(self, ccid, cid, lid, subj, sem):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("UPDATE COURSE_CLASS SET class_id=?, lecturer_id=?, subject_name=?, semester=? WHERE course_class_id=?", (cid, lid, subj, sem, ccid))
+                conn.commit()
+                return "OK"
+            except pyodbc.IntegrityError: return "Mã lớp hoặc mã giảng viên không tồn tại!"
+            except Exception as e: return str(e)
+            finally: conn.close()
+
+    def delete_course_class(self, ccid):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                cur.execute("DELETE FROM COURSE_CLASS WHERE course_class_id=?", (ccid,))
+                conn.commit()
+                return "OK"
+            except pyodbc.IntegrityError: return "Không thể xóa vì đã có điểm của sinh viên liên kết với lớp học phần này!"
+            finally: conn.close()
+
     

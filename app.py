@@ -60,7 +60,148 @@ class AppGUI(tk.Tk):
         tk.Button(sb, text="Log out", bg="#ef4444", fg="white", bd=0, command=self.show_login).pack(side="bottom", fill="x", pady=20, ipady=10)
 
     # ============================== ADMIN MODULES ==============================
-    
+    def show_admin_classes(self):
+        self.clear()
+        self.build_sidebar('Admin')
+        main = tk.Frame(self, padx=20, pady=20)
+        main.pack(side="right", fill="both", expand=True)
+
+        sf = tk.Frame(main)
+        sf.pack(fill="x", pady=5)
+        tk.Label(sf, text="Search Class:").pack(side="left")
+        self.ent_search_cls = tk.Entry(sf, width=40)
+        self.ent_search_cls.pack(side="left", padx=5)
+        tk.Button(sf, text="Search", command=self.load_classes).pack(side="left", padx=5)
+
+        self.tree_cls = ttk.Treeview(main, columns=("id", "name", "fac", "tot"), show="headings")
+        for c, t in zip(self.tree_cls["columns"], ["Class ID", "Class Name", "Faculty", "Total Students"]):
+            self.tree_cls.heading(c, text=t)
+        self.tree_cls.pack(fill="both", expand=True, pady=10)
+        self.tree_cls.bind("<<TreeviewSelect>>", lambda e: self.on_select(self.tree_cls, [self.cls_id, self.cls_name, self.cls_fac]))
+
+        df = tk.LabelFrame(main, text="Detailed Information", padx=10, pady=10)
+        df.pack(fill="x")
+        tk.Label(df, text="Class ID:").grid(row=0, column=0, sticky="w")
+        self.cls_id = tk.Entry(df)
+        self.cls_id.grid(row=0, column=1, padx=5, pady=5)
+        tk.Label(df, text="Class Name:").grid(row=0, column=2, sticky="w")
+        self.cls_name = tk.Entry(df)
+        self.cls_name.grid(row=0, column=3, padx=5, pady=5)
+        tk.Label(df, text="Faculty:").grid(row=1, column=0, sticky="w")
+        self.cls_fac = tk.Entry(df)
+        self.cls_fac.grid(row=1, column=1, padx=5, pady=5)
+
+        af = tk.Frame(main)
+        af.pack(fill="x", pady=10)
+        tk.Button(af, text="Add", bg="#16a34a", fg="white", command=self.add_cls).pack(side="left", padx=5)
+        tk.Button(af, text="Update", bg="#ca8a04", fg="white", command=self.upd_cls).pack(side="left", padx=5)
+        tk.Button(af, text="Delete", bg="#dc2626", fg="white", command=self.del_cls).pack(side="left", padx=5)
+        self.load_classes()
+
+    def add_cls(self):
+        res = self.srv.add_class(self.cls_id.get(), self.cls_name.get(), self.cls_fac.get())
+        if res == "OK":
+            self.load_classes()
+            messagebox.showinfo("Success", "Class added successfully!")
+        else:
+            messagebox.showerror("Error", res)
+
+    def upd_cls(self):
+        res = self.srv.update_class(self.cls_id.get(), self.cls_name.get(), self.cls_fac.get())
+        if res == "OK":
+            self.load_classes()
+            messagebox.showinfo("Success", "Class updated successfully!")
+        else:
+            messagebox.showerror("Error", res)
+
+    def del_cls(self):
+        if messagebox.askyesno("Confirmation", "Are you sure you want to delete this class?"):
+            res = self.srv.delete_class(self.cls_id.get())
+            if res == "OK":
+                self.load_classes()
+            else:
+                messagebox.showerror("Error", res)
+
+    def load_classes(self):
+        for r in self.tree_cls.get_children():
+            self.tree_cls.delete(r)
+        for c in self.srv.get_all_classes(self.ent_search_cls.get()):
+            self.tree_cls.insert("", tk.END, values=(c.class_id, c.class_name, c.faculty, c.total_students))
+
+    def show_admin_courses(self):
+        self.clear()
+        self.build_sidebar('Admin')
+        main = tk.Frame(self, padx=20, pady=20)
+        main.pack(side="right", fill="both", expand=True)
+
+        sf = tk.Frame(main)
+        sf.pack(fill="x", pady=5)
+        tk.Label(sf, text="Search Course:").pack(side="left")
+        self.ent_search_cc = tk.Entry(sf, width=40)
+        self.ent_search_cc.pack(side="left", padx=5)
+        tk.Button(sf, text="Search", command=self.load_courses).pack(side="left", padx=5)
+
+        self.tree_cc = ttk.Treeview(main, columns=("ccid", "cid", "lid", "subj", "sem"), show="headings")
+        for c, t in zip(self.tree_cc["columns"], ["Course Class ID", "Class ID", "Lecturer ID", "Subject Name", "Semester"]):
+            self.tree_cc.heading(c, text=t)
+        self.tree_cc.pack(fill="both", expand=True, pady=10)
+        self.tree_cc.bind("<<TreeviewSelect>>", lambda e: self.on_select(self.tree_cc, [self.cc_id, self.cc_cid, self.cc_lid, self.cc_subj, self.cc_sem]))
+
+        df = tk.LabelFrame(main, text="Detailed Information", padx=10, pady=10)
+        df.pack(fill="x")
+        tk.Label(df, text="Course Class ID:").grid(row=0, column=0, sticky="w")
+        self.cc_id = tk.Entry(df)
+        self.cc_id.grid(row=0, column=1, padx=5, pady=5)
+        tk.Label(df, text="Class ID:").grid(row=0, column=2, sticky="w")
+        self.cc_cid = tk.Entry(df)
+        self.cc_cid.grid(row=0, column=3, padx=5, pady=5)
+        tk.Label(df, text="Lecturer ID:").grid(row=1, column=0, sticky="w")
+        self.cc_lid = tk.Entry(df)
+        self.cc_lid.grid(row=1, column=1, padx=5, pady=5)
+        tk.Label(df, text="Subject Name:").grid(row=1, column=2, sticky="w")
+        self.cc_subj = tk.Entry(df)
+        self.cc_subj.grid(row=1, column=3, padx=5, pady=5)
+        tk.Label(df, text="Semester:").grid(row=2, column=0, sticky="w")
+        self.cc_sem = tk.Entry(df)
+        self.cc_sem.grid(row=2, column=1, padx=5, pady=5)
+
+        af = tk.Frame(main)
+        af.pack(fill="x", pady=10)
+        tk.Button(af, text="Add", bg="#16a34a", fg="white", command=self.add_cc).pack(side="left", padx=5)
+        tk.Button(af, text="Update", bg="#ca8a04", fg="white", command=self.upd_cc).pack(side="left", padx=5)
+        tk.Button(af, text="Delete", bg="#dc2626", fg="white", command=self.del_cc).pack(side="left", padx=5)
+        self.load_courses()
+
+    def add_cc(self):
+        res = self.srv.add_course_class(self.cc_id.get(), self.cc_cid.get(), self.cc_lid.get(), self.cc_subj.get(), self.cc_sem.get())
+        if res == "OK":
+            self.load_courses()
+            messagebox.showinfo("Success", "Course class added successfully!")
+        else:
+            messagebox.showerror("Error", res)
+
+    def upd_cc(self):
+        res = self.srv.update_course_class(self.cc_id.get(), self.cc_cid.get(), self.cc_lid.get(), self.cc_subj.get(), self.cc_sem.get())
+        if res == "OK":
+            self.load_courses()
+            messagebox.showinfo("Success", "Course class updated successfully!")
+        else:
+            messagebox.showerror("Error", res)
+
+    def del_cc(self):
+        if messagebox.askyesno("Confirmation", "Are you sure you want to delete this course class?"):
+            res = self.srv.delete_course_class(self.cc_id.get())
+            if res == "OK":
+                self.load_courses()
+            else:
+                messagebox.showerror("Error", res)
+
+    def load_courses(self):
+        for r in self.tree_cc.get_children():
+            self.tree_cc.delete(r)
+        for c in self.srv.get_all_course_classes(self.ent_search_cc.get()):
+            self.tree_cc.insert("", tk.END, values=(c.course_class_id, c.class_id, c.lecturer_id, c.subject_name, c.semester))
+
     def show_admin_students(self):
         self.clear()
         self.build_sidebar('Admin')
