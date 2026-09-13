@@ -172,4 +172,35 @@ class SystemService:
             except pyodbc.IntegrityError: return "Không thể xóa vì đã có điểm của sinh viên liên kết với lớp học phần này!"
             finally: conn.close()
 
+
+
+    # --- GRADE SERVICES ---
+    def get_grades_by_course(self, course_id, keyword=""):
+        conn = self.db.connect()
+        data = []
+        if conn:
+            cur = conn.cursor()
+            query = """
+                SELECT s.student_id, s.full_name, g.attendance_grade, g.midterm_grade, g.final_grade, g.total_grade, g.course_class_id
+                FROM GRADE g JOIN STUDENT s ON g.student_id = s.student_id WHERE g.course_class_id=?
+            """
+            if keyword: query += f" AND (s.student_id LIKE '%{keyword}%' OR s.full_name LIKE '%{keyword}%')"
+            cur.execute(query, (course_id,))
+            data = [{"sid": r[0], "name": r[1], "att": r[2], "mid": r[3], "fin": r[4], "tot": r[5], "ccid": r[6]} for r in cur.fetchall()]
+            conn.close()
+        return data
+
+    def update_grade(self, sid, ccid, att, mid, fin):
+        conn = self.db.connect()
+        if conn:
+            try:
+                cur = conn.cursor()
+                att, mid, fin = float(att), float(mid), float(fin)
+                tot = round((att * 0.1) + (mid * 0.3) + (fin * 0.6), 2)
+                cur.execute("UPDATE GRADE SET attendance_grade=?, midterm_grade=?, final_grade=?, total_grade=? WHERE student_id=? AND course_class_id=?", (att, mid, fin, tot, sid, ccid))
+                conn.commit()
+                return "OK"
+            except Exception as e: return str(e)
+            finally: conn.close()
+
     

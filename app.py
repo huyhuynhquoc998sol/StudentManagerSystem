@@ -279,7 +279,70 @@ class AppGUI(tk.Tk):
         for s in self.srv.get_all_students(self.ent_search.get()):
             self.tree_stu.insert("", tk.END, values=(s.student_id, s.full_name, s.gender, s.class_id, s.phone, s.email))
 
-    
+    def show_admin_grades(self):
+        self.clear()
+        self.build_sidebar('Admin')
+        main = tk.Frame(self, padx=20, pady=20)
+        main.pack(side="right", fill="both", expand=True)
+
+        sf = tk.Frame(main)
+        sf.pack(fill="x", pady=5)
+        tk.Label(sf, text="Search by Course Class ID:").pack(side="left")
+        self.ent_search_ad_gr = tk.Entry(sf, width=40)
+        self.ent_search_ad_gr.pack(side="left", padx=5)
+        tk.Button(sf, text="Load Class List", command=self.load_admin_grades).pack(side="left", padx=5)
+
+        self.tree_ad_gr = ttk.Treeview(main, columns=("sid", "name", "att", "mid", "fin", "tot", "ccid"), show="headings")
+        for c, t in zip(self.tree_ad_gr["columns"], ["Student ID", "Full Name", "Attendance", "Midterm", "Final", "Total", "Course Class ID"]):
+            self.tree_ad_gr.heading(c, text=t)
+        self.tree_ad_gr.pack(fill="both", expand=True, pady=10)
+        self.tree_ad_gr.bind("<<TreeviewSelect>>", lambda e: self.on_select(self.tree_ad_gr, [self.ad_gr_sid, self.ad_gr_name, self.ad_gr_att, self.ad_gr_mid, self.ad_gr_fin]))
+
+        df = tk.LabelFrame(main, text="Enter / Update Student Grades", padx=10, pady=10)
+        df.pack(fill="x")
+        tk.Label(df, text="Student ID:").grid(row=0, column=0, sticky="w")
+        self.ad_gr_sid = tk.Entry(df, state="readonly")
+        self.ad_gr_sid.grid(row=0, column=1, padx=5, pady=5)
+        self.ad_gr_name = tk.Entry(df)
+        tk.Label(df, text="Attendance:").grid(row=1, column=0, sticky="w")
+        self.ad_gr_att = tk.Entry(df)
+        self.ad_gr_att.grid(row=1, column=1, padx=5, pady=5)
+        tk.Label(df, text="Midterm:").grid(row=1, column=2, sticky="w")
+        self.ad_gr_mid = tk.Entry(df)
+        self.ad_gr_mid.grid(row=1, column=3, padx=5, pady=5)
+        tk.Label(df, text="Final:").grid(row=1, column=4, sticky="w")
+        self.ad_gr_fin = tk.Entry(df)
+        self.ad_gr_fin.grid(row=1, column=5, padx=5, pady=5)
+        tk.Button(df, text="Save Grade", bg="#16a34a", fg="white", command=self.upd_admin_grade).grid(row=2, column=5, pady=10)
+
+    def load_admin_grades(self):
+        for r in self.tree_ad_gr.get_children():
+            self.tree_ad_gr.delete(r)
+        ccid = self.ent_search_ad_gr.get()
+        if not ccid:
+            return
+        for g in self.srv.get_grades_by_course(ccid):
+            self.tree_ad_gr.insert("", tk.END, values=(g['sid'], g['name'], g['att'], g['mid'], g['fin'], g['tot'], g['ccid']))
+
+    def upd_admin_grade(self):
+        ccid = self.ent_search_ad_gr.get()
+        if ccid and self.ad_gr_sid.get():
+            res = self.srv.update_grade(self.ad_gr_sid.get(), ccid, self.ad_gr_att.get(), self.ad_gr_mid.get(), self.ad_gr_fin.get())
+            if res == "OK":
+                self.load_admin_grades()
+                messagebox.showinfo("Success", "Grades saved successfully!")
+            else:
+                messagebox.showerror("Error", res)
+
+    def on_select(self, tree, entry_list):
+        sel = tree.focus()
+        if sel:
+            for ent, val in zip(entry_list, tree.item(sel, 'values')):
+                ent.config(state="normal")
+                ent.delete(0, tk.END)
+                ent.insert(0, val)
+
+   
 
 if __name__ == "__main__":
     app = AppGUI()
