@@ -172,40 +172,7 @@ class SystemService:
             except pyodbc.IntegrityError: return "Không thể xóa vì đã có điểm của sinh viên liên kết với lớp học phần này!"
             finally: conn.close()
 
-    # --- LECTURER PROFILE & CLASSES ---
-    def get_lecturer_profile(self, user_id):
-        conn = self.db.connect()
-        if conn:
-            cur = conn.cursor()
-            cur.execute("SELECT user_id, lecturer_id, full_name, position, email, phone FROM LECTURER WHERE user_id=?", (user_id,))
-            r = cur.fetchone()
-            conn.close()
-            if r: return Lecturer(r[0], r[1], r[2], r[3], r[4], r[5])
-        return None
-
-    def update_lecturer_profile(self, uid, name, email, phone):
-        conn = self.db.connect()
-        if conn:
-            try:
-                cur = conn.cursor()
-                cur.execute("UPDATE LECTURER SET full_name=?, email=?, phone=? WHERE user_id=?", (name, email, phone, uid))
-                conn.commit()
-                return "OK"
-            except Exception as e: return str(e)
-            finally: conn.close()
-
-    def get_assigned_courses(self, user_id):
-        conn = self.db.connect()
-        data = []
-        if conn:
-            cur = conn.cursor()
-            cur.execute("SELECT lecturer_id FROM LECTURER WHERE user_id=?", (user_id,))
-            lid = cur.fetchone()
-            if lid:
-                cur.execute("SELECT course_class_id, subject_name, semester FROM COURSE_CLASS WHERE lecturer_id=?", (lid[0],))
-                data = [{"course_id": r[0], "subject": r[1], "semester": r[2]} for r in cur.fetchall()]
-            conn.close()
-        return data
+    
 
     # --- GRADE SERVICES ---
     def get_grades_by_course(self, course_id, keyword=""):
